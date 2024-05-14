@@ -175,14 +175,14 @@ useMessage = "Click on nodes to expand their neighbours. If a node is darker, it
 
 var legendToolBar = canvas
   .append('g')
-  .attr("transform", "translate(" + (width / 2 - legendToolBarHeight - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 3 * helpToolIconBoundaryDistance) + ")")
+  .attr("transform", "translate(" + (width / 2 - legendToolBarWidth - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 3 * helpToolIconBoundaryDistance) + ")")
   .append('svg')
   .attr('id', 'legendToolBar')
   .append('g')
 
 legendToolBarTextRectangle = legendToolBar
   .append('rect')
-  .attr('width', legendToolBarHeight)
+  .attr('width', legendToolBarWidth)
   .style('stroke', 'black')
   .style('stroke-width', 1)
   .style('rx', '3px')
@@ -207,9 +207,6 @@ function mouseleavelegendToolBarTextRectangle(d) {
 legendToolBar
   .on("mouseover", mouseoverlegendToolBarTextRectangle)
   .on("mouseleave", mouseleavelegendToolBarTextRectangle)
-
-
-
 
 // add text to legend toolbar
 useMessage = "<a_href=https://en.wikipedia.org/wiki/Betweenness_centrality>Betweenness,</a> or betweenness centrality, is roughly the measure of how central a node is when studying shortest paths. \n \n <a_href=https://en.wikipedia.org/wiki/Degree_(graph_theory)>Degree</a> is the sum of indegree and outdegree. <a_href=https://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree>Indegree</a> is the count of all incoming edges. <a_href=https://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree>Outdegree</a> is the count of all outgoing edges. \n \n <a_href=https://en.wikipedia.org/wiki/Eigenvector_centrality>Eigencentrality,</a> or eigenvector centrality, is another measure of centrality that takes into account how central are the node's neighbours. It is calculated using the eigenvectors of the adjancency matrix. \n \n <a_href=https://en.wikipedia.org/wiki/PageRank>Pagerank</a> is a variant of eigencentrality developed by Google."
@@ -315,8 +312,10 @@ useMessage = "<a_href=https://en.wikipedia.org/wiki/Betweenness_centrality>Betwe
     }
     lines[lines.length - 1].push(added)
 
-    if (getLineLength(lines.length - 1) > legendToolBarHeight - 2 * helpToolBarPaddingX) {
-      if (element.islink);
+    if (getLineLength(lines.length - 1) > legendToolBarWidth - 2 * helpToolBarPaddingX) {
+      if (element.islink){
+        added.remove()
+      }
       else {
         currentWords.pop()
         added.remove()
@@ -351,7 +350,6 @@ useMessage = "<a_href=https://en.wikipedia.org/wiki/Betweenness_centrality>Betwe
     }
     ++lineNumber
   }
-
 
   legendToolBarTextRectangle
     .attr("height", (lineNumber-1) * helpToolBarLineHeight + 2 * helpToolBarPaddingY)

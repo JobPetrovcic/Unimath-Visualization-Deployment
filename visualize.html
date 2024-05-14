@@ -66,18 +66,47 @@
               .attr("fill", (d) => setNodeColor(d))
               .attr("r", nodeRadius);
             // add label to nodes
-            curNode
+            namesOfEntries = curNode
               .append("text")
+              .attr("class", d => "nameOfEntry" + d.id)
               .attr("x", 10)
               .attr("y", "0.31em")
-              .text((d) => shortenName(d.name))
+              .text((d) => d.name)
               // add a white outline to text (label)
               // NOTE: in svg this will add two <text> badges to a nodes <g>, one for text and one for outline
+            
+            namesOfEntriesOutline = namesOfEntries
               .clone(true)
               .lower()
+              .attr("class", d => "nameOfEntryOutline" + d.id)
               .attr("fill", "none")
               .attr("stroke", "white")
               .attr("stroke-width", 3);
+
+            enter.each(function () {
+              d = d3.select(this).datum();
+
+              nameTag = d3.select(this)
+                .select(".nameOfEntry" + d.id)
+              nameTagOutline = d3.select(this)
+                .select(".nameOfEntryOutline" + d.id)
+              
+              if(nameTag.node().getComputedTextLength() > gapBetweenLevels - 4 * nodeRadius){
+                nameTag.text(nameTag.text() + "...")
+                
+                while(nameTag.node().getComputedTextLength() > gapBetweenLevels - 4 * nodeRadius){
+                  //console.log(nameTag.node().getComputedTextLength())
+                  s = nameTag.text()
+                  if(s.length==0) break
+                  nameTag.text(s.slice(0, -4) + s.slice(-3))
+                  nameTagOutline.text(s.slice(0, -4) + s.slice(-3))
+                  console.log(nameTag.text())
+                }
+
+              }
+              
+            });
+
             tooltipSvg = curNode.append("svg").attr("class", "tooltip");
 
             tooltip = tooltipSvg
@@ -357,22 +386,25 @@
       .append("circle")
 
     startingCircle
-      .attr("r", 20)
+      .attr("r", 13)
       .style("fill", "none")
       .style("stroke", startNodeColor)
-      .style("stroke-width", 18)
+      .style("stroke-width", 4)
     
     d3.select(startingCircle.node().parentNode).raise();
 
     // add caption
     var startingCaption = startNode.append("g").append("text")
-      .attr("x", 40)
-      .attr("y", -40)
+      .attr("y", startingCaptionFontSize/4)
 
     startingCaption
-      .text("library is contained here")
-      .style("font-size", "25px")
+      .text("Everything in the library is contained here")
+      .style("font-size", startingCaptionFontSize)
+      .style("font-weight", 600)
       .style("fill", startNodeColor)
+    
+    startingCaption
+      .attr("x", - (startingCaption.node().getComputedTextLength() + 2 * nodeRadius + 5))
 
     d3.select(startingCaption.node().parentNode).raise();
     

@@ -11,8 +11,9 @@ const helpToolBarPaddingX = 20
 const helpToolBarLineHeight = 20
 const helpToolBarPaddingY = 30
 const helpToolBarHeight = 230
-const legendToolBarHeight = 400
+const legendToolBarWidth = 340
 const spaceGap = 3
+const startingCaptionFontSize = 10
 
 // constants for NODES
 const nodeRadius = 7
