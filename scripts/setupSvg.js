@@ -359,9 +359,6 @@ useMessage = "<a_href=https://en.wikipedia.org/wiki/Betweenness_centrality>Betwe
     .attr('display', 'none')
 }
 
-
-
-
 //var optionsMenu = d3.select("body").append("div").attr('class', 'optionsMenu')
 //var inputShowOnlyNecessary = optionsMenu
 //  .append('label')
