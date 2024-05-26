@@ -228,7 +228,7 @@
           .attr("display", "none");
       }
       function clicked(event) {
-        endStartingPosition()
+        //endStartingPosition()
 
         let u = d3.select(this).data()[0].id; // select the corresponding datum
         if (dataNodes[u].expanded) {
@@ -363,7 +363,7 @@
         setLinkAttributes(d3.select(this), d3.select(this).data()[0]);
       }
       function clickedlink(event) {
-        endStartingPosition()
+        //endStartingPosition()
 
         let link = d3.select(this).data()[0];
 
