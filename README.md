@@ -1,1 +1,0 @@
-This is a repository containing all the files for deployment of the visualization of an Agda library called Unimath.
