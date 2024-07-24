@@ -860,6 +860,8 @@ isSomeObserved = false;
             renderList([]);
             searchInput.node().value = "";
           }
+          foreignObjectSearchbar
+        .attr("height", divSearchbar.node().getBoundingClientRect().height)
         }, 150); // Adjust the timeout duration as needed
         event.stopPropagation();
       })
@@ -882,6 +884,23 @@ isSomeObserved = false;
     foreignObjectSearchbar
       .attr("height", divSearchbar.node().getBoundingClientRect().height)
   }
+  
+  // Create an array of indices sorted by the length of the name property
+  // this is used to somewhat optimize the search
+  const dataNodesIndices = dataNodes.map((_, index) => index).sort((a, b) => {
+    const nameA = dataNodes[a].name;
+    const nameB = dataNodes[b].name;
+    
+    // First sort by length of name
+    if (nameA.length !== nameB.length) {
+      return nameA.length - nameB.length;
+    }
+    
+    // If lengths are the same, sort lexicographically
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
 
   // search bar event listener
   searchInput.on("input", function () {
@@ -889,7 +908,16 @@ isSomeObserved = false;
     if (searchText === "") {
       renderList([]);  // if the search input is empty, clear the list
     } else {
-      const filteredData = dataNodes.filter(d => !d.removed && d.name.toLowerCase().includes(searchText)).sort((a, b) => a.name.length - b.name.length);
+      let filteredData = [];
+      for (let i = 0; i < dataNodes.length; i++) {
+        const node = dataNodes[dataNodesIndices[i]];
+        if (!node.removed && node.name.toLowerCase().includes(searchText)) {
+          filteredData.push(dataNodes[dataNodesIndices[i]]);
+          // find only 60 entries
+          if(filteredData.length > 60) break;
+        }
+      }
+      console.log(searchText)
       renderList(filteredData);
     }
   });
