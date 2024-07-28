@@ -73,13 +73,15 @@ mainGraphics.attr('transform', d3.zoomIdentity)
 
 isSomeObserved = false;
 // help tool bar code
-{
+
+
+// ICONS 
   helpToolIcon = svg.append("g")
     .attr("transform", "translate(" + (width / 2 - helpToolIconBoundaryDistance) + ", " + (-height / 2 + helpToolIconBoundaryDistance) + ")")
 
   helpToolIcon
     .append("circle")
-    .attr("r", helpToolIconCircleSize)
+    .attr("r", iconCircleSize)
     .attr("cx", 12)
     .attr("cy", 12)
     .attr("fill", "white")
@@ -104,537 +106,327 @@ isSomeObserved = false;
 
   // Three function that change the helpToolBar when user hover / move / leave a cell
   function mouseoverhelpToolIcon(d) {
-    d3
-      .select('#helpToolBar')
-      .raise()
-      .attr('display', 'inline')
+    if (!isColorLegendHovered && !isLegendHovered) {
+      d3
+        .select('#helpToolBar')
+        .raise()
+        .attr('display', 'inline')
+    }
   }
   function mouseleavehelpToolIcon(d) {
-    d3
-      .select('#helpToolBar')
-      .attr('display', 'none')
+    if (!isHelpToolBarHovered) {
+      d3
+        .select('#helpToolBar')
+        .attr('display', 'none')
+    }
   }
 
   helpToolIcon
     .on("mouseover", mouseoverhelpToolIcon)
     .on("mouseleave", mouseleavehelpToolIcon)
 
-  // create a helpToolBar
-  var helpToolBar = svg
+// Legend tool bar Code
+
+legendIcon = svg.append("g")
+.attr("transform", "translate(" + (width / 2 - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 4 * iconCircleSize + helpToolIconBoundaryDistance) + ")")
+
+advancedOptionsArray.push([legendIcon, 'inline'])
+
+legendIcon
+.append("circle")
+.attr("r", iconCircleSize)
+.attr("cx", 12)
+.attr("cy", 12)
+.attr("fill", "white")
+.attr("opacity", 0)
+
+legendIcon
+.append("path")
+.attr("d", "M6 6C6 5.44772 6.44772 5 7 5H17C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7H7C6.44771 7 6 6.55228 6 6Z")
+.attr("fill", "currentColor")
+legendIcon
+.append("path")
+.attr("d", "M6 10C6 9.44771 6.44772 9 7 9H17C17.5523 9 18 9.44771 18 10C18 10.5523 17.5523 11 17 11H7C6.44771 11 6 10.5523 6 10Z")
+.attr("fill", "currentColor")
+legendIcon
+.append("path")
+.attr("d", "M7 13C6.44772 13 6 13.4477 6 14C6 14.5523 6.44771 15 7 15H17C17.5523 15 18 14.5523 18 14C18 13.4477 17.5523 13 17 13H7Z")
+.attr("fill", "currentColor")
+legendIcon
+.append("path")
+.attr("d", "M6 18C6 17.4477 6.44772 17 7 17H11C11.5523 17 12 17.4477 12 18C12 18.5523 11.5523 19 11 19H7C6.44772 19 6 18.5523 6 18Z")
+.attr("fill", "currentColor")
+legendIcon
+.append("path")
+.attr("fill-rule", "evenodd")
+.attr("clip-rule", "evenodd")
+.attr("d", "M2 4C2 2.34315 3.34315 1 5 1H19C20.6569 1 22 2.34315 22 4V20C22 21.6569 20.6569 23 19 23H5C3.34315 23 2 21.6569 2 20V4ZM5 3H19C19.5523 3 20 3.44771 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44771 3 5 3Z")
+.attr("fill", "currentColor")
+
+function mouseoverlegendToolIcon(d) {
+if (!isHelpToolBarHovered && !isColorLegendHovered) {
+  d3
+    .select('#legendToolBar')
+    .raise()
+    .attr('display', 'inline')
+}
+}
+function mouseleavelegendToolIcon(d) {
+if (!isLegendHovered) {
+  d3
+    .select('#legendToolBar')
+    .attr('display', 'none')
+}
+}
+legendIcon
+.on("mouseover", mouseoverlegendToolIcon)
+.on("mouseleave", mouseleavelegendToolIcon)
+
+// Color legend tool bar Code
+let colorLegendIcon = svg.append("g")
+.attr("transform", "translate(" + (width / 2 - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 2 * iconCircleSize + helpToolIconBoundaryDistance) + ")")
+
+colorLegendIcon
+.append("circle")
+.attr("r", iconCircleSize)
+.attr("cx", 12)
+.attr("cy", 12)
+.attr("fill", "white")
+.attr("opacity", 0)
+
+colorLegendIcon
+.append("path")
+.attr("d", "M12 7.75736L7.75736 12L12 16.2426L16.2426 12L12 7.75736Z")
+.attr("fill", "currentColor")
+
+colorLegendIcon
+.append("path")
+.attr("fill-rule", "evenodd")
+.attr("clip-rule", "evenodd")
+.attr("d", "M3 4C3 2.34315 4.34315 1 6 1H18C19.6569 1 21 2.34315 21 4V20C21 21.6569 19.6569 23 18 23H6C4.34315 23 3 21.6569 3 20V4ZM6 3H18C18.5523 3 19 3.44772 19 4V20C19 20.5523 18.5523 21 18 21H6C5.44772 21 5 20.5523 5 20V4C5 3.44772 5.44772 3 6 3Z")
+.attr("fill", "currentColor")
+
+function mouseovercolorLegendIcon(d) {
+console.log(isHelpToolBarHovered)
+if (!isHelpToolBarHovered && !isLegendHovered) {
+  d3
+    .select('#colorLegendToolBar')
+    .raise()
+    .attr('display', 'inline')
+}
+}
+function mouseleavecolorLegendIcon(d) {
+if (!isColorLegendHovered) {
+  d3
+    .select('#colorLegendToolBar')
+    .attr('display', 'none')
+}
+}
+
+colorLegendIcon
+.on("mouseover", mouseovercolorLegendIcon)
+.on("mouseleave", mouseleavecolorLegendIcon)
+
+
+
+  // Create the help toolbar as a foreign object
+  let helpToolBar = svg
     .append('g')
-    .attr("transform", "translate(" + (width / 2 - helpToolBarWidth - helpToolIconBoundaryDistance) + ", " + (-height / 2 + helpToolIconBoundaryDistance) + ")")
-    .append('svg')
+    .attr("transform", "translate(" + (width / 2 - barWidths - helpToolIconBoundaryDistance) + ", " + (-height / 2 + helpToolIconBoundaryDistance) + ")")
+    .append('foreignObject')
     .attr('id', 'helpToolBar')
-    .append('g')
+    .attr('width', barWidths)
+    .attr('height', barHeights + 2 * barPaddings + 'px')
+    .style('border', '1px solid black')
+    .style('border-radius', `${barRadii}` + 'px')
+    .style('background', 'white')
+    .append('xhtml:div')
+    .style('width', barWidths)
+    .style('height', barHeights + 'px')
+    .style('font-weight', 300)
+    .style('overflow', 'auto')
+    .style('padding', barPaddings + 'px')
 
-  helpToolbarTextRectangle = helpToolBar
-    .append('rect')
-    .attr('width', helpToolBarWidth)
-    .style('stroke', 'black')
-    .style('stroke-width', 1)
-    .style('rx', '3px')
-    .attr('fill', 'white')
-    .attr('font-weight', 300)
+  // Add the message text
+  helpToolBar.append('div')
+    .text("Click and drag to move around. Click on nodes to expand their neighbors. If a node is darker, it is already expanded or has no neighbors. Click on links to track them, which marks them. Click again to untrack. \n \n Use the scroll wheel to zoom in and out. Holding shift while scrolling moves up and down instead. Moreover, holding the Alt key speeds up this scrolling. Hover over a node to show some of its properties. \n \n To enable advanced options, tick the tickbox. Some additional properties of nodes are now shown when hovering over them. An option to collapse all nodes becomes available on the bottom right. On the top left, a scoreboard displaying nodes with the highest indegree appears. Below it, a search tool to find nodes by name becomes visible. Search for a node by name, click on the search entry to expand the node, and center the viewbox on it. \n \n If you hold shift when you click on the search entry, the node is not centered on but instead becomes 'observed' (the observed node's name is in the black box just above the searchbar). The last property, when hovering over an arbitrary node, now shows the dependency on the observed node. This means that in the construction of an entry in the library, the observed node's entry was used somewhere. \n \n If you want to observe a node without expanding and centering on it, click on it while holding Alt key or find it in the searchbar and click on the entry while holding Alt key.")
+    .style('white-space', 'pre-line');  // Preserve newlines in the message
 
-  let useMessage = "Click and drag to move around. Click on nodes to expand their neighbors. If a node is darker, it is already expanded or has no neighbors. Click on links to track them, which marks them. Click again to untrack. \n \n Use the scroll wheel to zoom in and out. Holding shift while scrolling moves up and down instead. Moreover, holding the Alt key speeds up this scrolling. Hover over a node to show some of its properties. \n \n To enable advanced options, tick the tickbox. Some additional properties of nodes are now shown when hovering over them. An option to collapse all nodes becomes available on the bottom right. On the top left, a scoreboard displaying nodes with the highest indegree appears. Below it, a search tool to find nodes by name becomes visible. Search for a node by name, click on the search entry to expand the node, and center the viewbox on it. \n \n If you hold shift when you click on the search entry, the node is not centered on but instead becomes 'observed' (the observed node's name is in the black box just above the searchbar). The last property, when hovering over an arbitrary node, now shows the dependency on the observed node. This means that in the construction of an entry in the library, the observed node's entry was used somewhere. \n \n If you want to observe a node without expanding and centering on it, click on it while holding shift or find it in the searchbar and click on the entry while holding shift."
-
-  {
-    let words = useMessage.split(" ").reverse()
-    let line = []
-    let lineNumber = 0
-
-    let text = helpToolBar
-      .append("text")
-      .text(null)
-
-    let tspan = text
-      .append("tspan")
-      .attr("x", helpToolBarPaddingX)
-      .attr("y", helpToolBarPaddingY)
-
-    while (word = words.pop()) {
-      line.push(word);
-      tspan.text(line.join(" "));
-      if (word == "\n" || tspan.node().getComputedTextLength() > helpToolBarWidth - 2 * helpToolBarPaddingX) {
-        line.pop();
-        tspan.text(line.join(" "));
-        if (word == "\n") line = []
-        else line = [word]
-
-        tspan = text
-          .append("tspan")
-          .attr("x", helpToolBarPaddingX)
-          .attr("y", helpToolBarPaddingY)
-          .attr("dy", ++lineNumber * helpToolBarLineHeight)
-          .text(word);
-      }
-    }
-
-    helpToolbarTextRectangle
-      .attr("height", lineNumber * helpToolBarLineHeight + 2 * helpToolBarPaddingY)
-
-
+  var isHelpToolBarHovered = false
+  function mouseoverhelpToolBar(d) {
+      isHelpToolBarHovered = true
+      d3
+        .select('#helpToolBar')
+        .raise()
+        .attr('display', 'inline')
   }
+  function mouseleavehelpToolBar(d) {
+    isHelpToolBarHovered = false
+    d3
+      .select('#helpToolBar')
+      .attr('display', 'none')
+  }
+
+  helpToolBar
+    .on("mouseover", mouseoverhelpToolBar)
+    .on("mouseleave", mouseleavehelpToolBar)
+
   d3
     .select('#helpToolBar')
     .attr('display', 'none')
-}
-
-// Color legend tool bar Code
-{
-  let colorLegendIcon = svg.append("g")
-    .attr("transform", "translate(" + (width / 2 - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 3 * helpToolIconCircleSize + helpToolIconBoundaryDistance) + ")")
-
-  colorLegendIcon
-    .append("circle")
-    .attr("r", helpToolIconCircleSize)
-    .attr("cx", 12)
-    .attr("cy", 12)
-    .attr("fill", "white")
-    .attr("opacity", 0)
-
-  colorLegendIcon
-    .append("path")
-    .attr("d", "M12 7.75736L7.75736 12L12 16.2426L16.2426 12L12 7.75736Z")
-    .attr("fill", "currentColor")
-
-  colorLegendIcon
-    .append("path")
-    .attr("fill-rule", "evenodd")
-    .attr("clip-rule", "evenodd")
-    .attr("d", "M3 4C3 2.34315 4.34315 1 6 1H18C19.6569 1 21 2.34315 21 4V20C21 21.6569 19.6569 23 18 23H6C4.34315 23 3 21.6569 3 20V4ZM6 3H18C18.5523 3 19 3.44772 19 4V20C19 20.5523 18.5523 21 18 21H6C5.44772 21 5 20.5523 5 20V4C5 3.44772 5.44772 3 6 3Z")
-    .attr("fill", "currentColor")
-
-  function mouseovercolorLegendToolBar(d) {
-    d3
-      .select('#colorLegendToolBar')
-      .raise()
-      .attr('display', 'inline')
-  }
-  function mouseleavecolorLegendToolBar(d) {
-    if (!isColorLegendHovered) {
-      d3
-        .select('#colorLegendToolBar')
-        .attr('display', 'none')
-    }
-  }
-
-  colorLegendIcon
-    .on("mouseover", mouseovercolorLegendToolBar)
-    .on("mouseleave", mouseleavecolorLegendToolBar)
 
   let colorLegendToolBar = svg
     .append('g')
-    .attr("transform", "translate(" + (width / 2 - colorLegendToolBarWidth - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 3 * helpToolIconCircleSize + helpToolIconBoundaryDistance) + ")")
-    .append('svg')
+    .attr("transform", "translate(" + (width / 2 - colorLegendToolBarWidth - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 2 * iconCircleSize + helpToolIconBoundaryDistance) + ")")
+    .append('foreignObject')
     .attr('id', 'colorLegendToolBar')
-    .append('g')
+    .attr('width', barWidths)
+    .attr('height', barHeights + 2 * barPaddings + 'px')
+    .style('border', '1px solid black')
+    .style('border-radius', `${barRadii}` + 'px')
 
+  let colorLegendForeignObject = colorLegendToolBar
+    .append('xhtml:div')
+    .style('width', barWidths)
+    .style('background', 'white')
+    .style('font-weight', 300)
+    .style('overflow', 'auto')  // Add scrollbar if content is too long
+    .style('padding', barPaddings + 'px')  // Optional: Add some padding
 
-  colorLegendToolBarTextRectangle = colorLegendToolBar
-    .append('rect')
-    .attr('width', colorLegendToolBarWidth)
-    .style('stroke', 'black')
-    .style('stroke-width', 1)
-    .style('rx', '3px')
-    .attr('fill', 'white')
-    .attr('font-weight', 300)
+  // Add the message text
+  colorLegendForeignObject.append('div')
+    .style('font-weight', 'bold')
+    .style('margin-bottom', '10px')
+    .text('Color Legend');
 
-  // add text to color legend toolbar
-  {
-    let text = colorLegendToolBar
-      .append("text")
-      .text(null)
+  // Append each (label, color) pair
+  Object.entries(colorPalette).forEach(([label, color]) => {
+    var legendItem = colorLegendForeignObject.append('div')
+      .style('display', 'flex')
+      .style('align-items', 'center')
+      .style('margin-bottom', '5px');
 
-    let textElements = [{
-      "word": "Color",
-      "iscolor": false,
-    },
-    {
-      "word": "legend",
-      "iscolor": false,
-    },
-    {
-      "word": "\n",
-      "iscolor": false,
-    }]
-    for (const [label, color] of Object.entries(colorPalette)) {
-      textElements.push({
-        "color": color,
-        "iscolor": true,
-      })
+    legendItem.append('span')
+      .style('display', 'inline-block')
+      .style('width', '12px')
+      .style('height', '12px')
+      .style('background-color', color)
+      .style('border-radius', '50%')
+      .style('margin-right', '8px');
 
-      textElements.push({
-        "word": label + " ",
-        "iscolor": false,
-      })
+    legendItem.append('span')
+      .text(label);
+  });
 
+  colorLegendToolBar.attr('height', colorLegendForeignObject.node().getBoundingClientRect().height)
 
-      textElements.push({
-        "word": "\n",
-        "iscolor": true,
-      })
-    }
+  var isColorLegendHovered = false
+  function mouseovercolorLegendToolBar(d) {
 
-    let lines = [] // list of list of tspans
-
-    function getLineLength(ind) {
-      let ret = 0
-
-      for (let l of lines[ind]) {
-        //debugger;
-        ret += l.node().getComputedTextLength()
-        ret += spaceGap
-      }
-      return ret
-    }
-
-    let isNewLine = true
-    let currentWords = []
-
-    function packWords() {
-      let ret = null
-      if (currentWords.length > 0) {
-
-        ret = text
-          .append("tspan")
-          .text(currentWords.join(" "))
-
-        lines[lines.length - 1].push(ret)
-        currentWords = []
-      }
-      return ret
-    }
-    for (i = 0; i < textElements.length; ++i) {
-      let element = textElements[i]
-      let added = null
-      if (isNewLine) {
-        lines.push([])
-        isNewLine = false
-      }
-      if (element.word == "\n") {
-        packWords()
-
-        isNewLine = true
-        continue
-      }
-      else if (element.iscolor) {
-        packWords()
-
-        added = text
-          .append('tspan')
-          .text('⬤')
-          .style('fill', element.color);  // Color of the circle*/
-      }
-      else {
-        currentWords.push(element.word)
-        added = text
-          .append("tspan")
-          .text(currentWords.join(" "))
-      }
-      lines[lines.length - 1].push(added)
-
-      if (getLineLength(lines.length - 1) > colorLegendToolBarWidth - 2 * helpToolBarPaddingX) {
-        if (element.iscolor) {
-          added.remove()
-        }
-        else {
-          currentWords.pop()
-          added.remove()
-          lines[lines.length - 1].pop()
-          packWords()
-        }
-
-        --i
-
-        isNewLine = true
-      }
-      else {
-        if (element.iscolor);
-        else {
-          added.remove()
-          lines[lines.length - 1].pop()
-        }
-      }
-    }
-    packWords()
-
-    let lineNumber = 0
-    for (line of lines) {
-      currentOffset = 0
-      for (span of line) {
-        span
-          .attr("x", helpToolBarPaddingX)
-          .attr("y", helpToolBarPaddingY)
-          .attr("dy", lineNumber * helpToolBarLineHeight)
-          .attr("dx", currentOffset)
-        currentOffset += span.node().getComputedTextLength() + spaceGap;
-      }
-      ++lineNumber
-    }
-
-    colorLegendToolBarTextRectangle
-      .attr("height", (lineNumber - 1) * helpToolBarLineHeight + 2 * helpToolBarPaddingY)
-
-    var isColorLegendHovered = false
-    function mouseovercolorLegendToolBarTextRectangle(d) {
       isColorLegendHovered = true
       d3
         .select('#colorLegendToolBar')
         .raise()
         .attr('display', 'inline')
-    }
-    function mouseleavecolorLegendToolBarTextRectangle(d) {
-      isColorLegendHovered = false
-      d3
-        .select('#colorLegendToolBar')
-        .attr('display', 'none')
-    }
-
-    colorLegendToolBar
-      .on("mouseover", mouseovercolorLegendToolBarTextRectangle)
-      .on("mouseleave", mouseleavecolorLegendToolBarTextRectangle)
+    
   }
+  function mouseleavecolorLegendToolBar(d) {
+    isColorLegendHovered = false
+    d3
+      .select('#colorLegendToolBar')
+      .attr('display', 'none')
+  }
+
+  colorLegendToolBar
+    .on("mouseover", mouseovercolorLegendToolBar)
+    .on("mouseleave", mouseleavecolorLegendToolBar)
 
   d3
     .select('#colorLegendToolBar')
     .attr('display', 'none')
-}
 
-// Legend tool bar Code
-{
-  legendIcon = svg.append("g")
-    .attr("transform", "translate(" + (width / 2 - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 6 * helpToolIconCircleSize + helpToolIconBoundaryDistance) + ")")
 
-  advancedOptionsArray.push([legendIcon, 'inline'])
 
-  legendIcon
-    .append("circle")
-    .attr("r", helpToolIconCircleSize)
-    .attr("cx", 12)
-    .attr("cy", 12)
-    .attr("fill", "white")
-    .attr("opacity", 0)
-
-  legendIcon
-    .append("path")
-    .attr("d", "M6 6C6 5.44772 6.44772 5 7 5H17C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7H7C6.44771 7 6 6.55228 6 6Z")
-    .attr("fill", "currentColor")
-  legendIcon
-    .append("path")
-    .attr("d", "M6 10C6 9.44771 6.44772 9 7 9H17C17.5523 9 18 9.44771 18 10C18 10.5523 17.5523 11 17 11H7C6.44771 11 6 10.5523 6 10Z")
-    .attr("fill", "currentColor")
-  legendIcon
-    .append("path")
-    .attr("d", "M7 13C6.44772 13 6 13.4477 6 14C6 14.5523 6.44771 15 7 15H17C17.5523 15 18 14.5523 18 14C18 13.4477 17.5523 13 17 13H7Z")
-    .attr("fill", "currentColor")
-  legendIcon
-    .append("path")
-    .attr("d", "M6 18C6 17.4477 6.44772 17 7 17H11C11.5523 17 12 17.4477 12 18C12 18.5523 11.5523 19 11 19H7C6.44772 19 6 18.5523 6 18Z")
-    .attr("fill", "currentColor")
-  legendIcon
-    .append("path")
-    .attr("fill-rule", "evenodd")
-    .attr("clip-rule", "evenodd")
-    .attr("d", "M2 4C2 2.34315 3.34315 1 5 1H19C20.6569 1 22 2.34315 22 4V20C22 21.6569 20.6569 23 19 23H5C3.34315 23 2 21.6569 2 20V4ZM5 3H19C19.5523 3 20 3.44771 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44771 3 5 3Z")
-    .attr("fill", "currentColor")
-
-  function mouseoverlegendToolIcon(d) {
-    d3
-      .select('#legendToolBar')
-      .raise()
-      .attr('display', 'inline')
-  }
-  function mouseleavelegendToolIcon(d) {
-    if (!isLegendHovered) {
-      d3
-        .select('#legendToolBar')
-        .attr('display', 'none')
-    }
-  }
-  legendIcon
-    .on("mouseover", mouseoverlegendToolIcon)
-    .on("mouseleave", mouseleavelegendToolIcon)
-
-  legendToolBar = svg
+  // Create the help toolbar as a foreign object
+  let legendToolBar = svg
     .append('g')
-    .attr("transform", "translate(" + (width / 2 - legendToolBarWidth - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 6 * helpToolIconCircleSize + helpToolIconBoundaryDistance) + ")")
-    .append('svg')
+    .attr("transform", "translate(" + (width / 2 - legendToolBarWidth - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 4 * iconCircleSize + helpToolIconBoundaryDistance) + ")")
+    .append('foreignObject')
     .attr('id', 'legendToolBar')
-    .append('g')
+    .attr('width', barWidths)
+    .attr('height', barHeights + 2 * barPaddings + 'px')
+    .style('border', '1px solid black')
+    .style('border-radius', `${barRadii}` + 'px')
+    .style('background', 'white')
 
-  advancedOptionsArray.push([legendToolBar, 'inline'])
+  let legendToolBarForeignObject = legendToolBar
+    .append('xhtml:div')
+    .style('width', barWidths)
+    .style('font-weight', 300)
+    .style('overflow', 'auto')
+    .style('padding', barPaddings + 'px')
 
-  legendToolBarTextRectangle = legendToolBar
-    .append('rect')
-    .attr('width', legendToolBarWidth)
-    .style('stroke', 'black')
-    .style('stroke-width', 1)
-    .style('rx', '3px')
-    .attr('fill', 'white')
-    .attr('font-weight', 300)
-
-  // add text to legend toolbar
-  let useMessage = "<a_href=https://en.wikipedia.org/wiki/Betweenness_centrality>Betweenness,</a> or betweenness centrality, is roughly the measure of how central a node is when studying shortest paths. \n \n <a_href=https://en.wikipedia.org/wiki/Degree_(graph_theory)>Degree</a> is the sum of indegree and outdegree. <a_href=https://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree>Indegree</a> is the count of all incoming edges. <a_href=https://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree>Outdegree</a> is the count of all outgoing edges. \n \n <a_href=https://en.wikipedia.org/wiki/Eigenvector_centrality>Eigencentrality,</a> or eigenvector centrality, is another measure of centrality that takes into account how central are the node's neighbours. It is calculated using the eigenvectors of the adjancency matrix. \n \n <a_href=https://en.wikipedia.org/wiki/PageRank>Pagerank</a> is a variant of eigencentrality developed by Google."
-
-  {
-    let words = useMessage.split(" ")
-    let text = legendToolBar
-      .append("text")
-      .text(null)
-
-    let textElements = []
-    for (word of words) {
-      let textElement = null
-
-      let match = word.match(/<a_href=(.*?)>(.*?)<\/a>/);
-
-      if (match) {
-        let link = match[1];
-        let word = match[2];
-        textElement = {
-          "word": word,
-          "link": link,
-          "islink": true
-        }
+  legendToolBarForeignObject.append('style').text(`
+      a:link {
+        color: blue;
+        text-decoration: none;
       }
-      else {
-        textElement = {
-          "word": word,
-          "islink": false
-        }
+      a:visited {
+        color: blue;
+        text-decoration: none;
       }
-
-      textElements.push(textElement)
-    }
-
-
-    let lines = [] // list of list of tspans
-
-    function getLineLength(ind) {
-      ret = 0
-
-      for (let l of lines[ind]) {
-        ret += l.node().getComputedTextLength()
-        ret += spaceGap
+      a:hover {
+        color: darkblue;
+        text-decoration: underline;
       }
-      return ret
-    }
-
-    let isNewLine = true
-    let currentWords = []
-
-    function packWords() {
-      let ret = null
-      if (currentWords.length > 0) {
-
-        ret = text
-          .append("tspan")
-          .text(currentWords.join(" "))
-
-        lines[lines.length - 1].push(ret)
-        currentWords = []
+      a:active {
+        color: darkblue;
+        text-decoration: underline;
       }
-      return ret
-    }
-    for (i = 0; i < textElements.length; ++i) {
-      let element = textElements[i]
-      let added = null
-      if (isNewLine) {
-        lines.push([])
-        isNewLine = false
-      }
-      if (element.word == "\n") {
-        packWords()
+    `);
 
-        isNewLine = true
-        continue
-      }
-      else if (element.islink) {
-        packWords()
+  // Add the message text
+  legendToolBarForeignObject.append('div')
+    .html(`<a href="https://en.wikipedia.org/wiki/Betweenness_centrality">Betweenness,</a> or betweenness centrality, is roughly the measure of how central a node is when studying shortest paths. 
 
-        added = text
-          .append('tspan')
-        added
-          .append('a')
-          .attr("xlink:href", element.link)
-          .text(element.word)
-          .attr('fill', '#007bff')
-      }
-      else {
-        currentWords.push(element.word)
-        added = text
-          .append("tspan")
-          .text(currentWords.join(" "))
-      }
-      lines[lines.length - 1].push(added)
+  <a href="https://en.wikipedia.org/wiki/Degree_(graph_theory)">Degree</a> is the sum of indegree and outdegree. <a href="https://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree">Indegree</a> is the count of all incoming edges. <a href="https://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree">Outdegree</a> is the count of all outgoing edges.
 
-      if (getLineLength(lines.length - 1) > legendToolBarWidth - 2 * helpToolBarPaddingX) {
-        if (element.islink) {
-          added.remove()
-        }
-        else {
-          currentWords.pop()
-          added.remove()
-          lines[lines.length - 1].pop()
-          packWords()
-        }
+  <a href="https://en.wikipedia.org/wiki/Eigenvector_centrality">Eigencentrality,</a> or eigenvector centrality, is another measure of centrality that takes into account how central are the node's neighbours. It is calculated using the eigenvectors of the adjacency matrix. 
+  
+  <a href="https://en.wikipedia.org/wiki/PageRank">Pagerank</a> is a variant of eigencentrality developed by Google.`)
+    .style('white-space', 'pre-line');  // Preserve newlines in the message
 
-        --i
+  legendHeight = Math.min(barHeights, legendToolBarForeignObject.node().getBoundingClientRect().height)
+  legendToolBar.attr('height', legendHeight + 'px')
+  legendToolBarForeignObject.style('height', legendHeight + 'px')
 
-        isNewLine = true
-      }
-      else {
-        if (element.islink);
-        else {
-          added.remove()
-          lines[lines.length - 1].pop()
-        }
-      }
-    }
-    packWords()
+  //advancedOptionsArray.push([legendToolBar, 'inline'])
 
-    lineNumber = 0
-    for (line of lines) {
-      currentOffset = 0
-      for (span of line) {
-        span
-          .attr("x", helpToolBarPaddingX)
-          .attr("y", helpToolBarPaddingY)
-          .attr("dy", lineNumber * helpToolBarLineHeight)
-          .attr("dx", currentOffset)
-        currentOffset += span.node().getComputedTextLength() + spaceGap;
-      }
-      ++lineNumber
-    }
+  var isLegendHovered = false
+  function mouseoverlegendToolBar(d) {
 
-    legendToolBarTextRectangle
-      .attr("height", (lineNumber - 1) * helpToolBarLineHeight + 2 * helpToolBarPaddingY)
-
-    var isLegendHovered = false
-    function mouseoverlegendToolBarTextRectangle(d) {
       isLegendHovered = true
       d3
         .select('#legendToolBar')
         .raise()
         .attr('display', 'inline')
-    }
-    function mouseleavelegendToolBarTextRectangle(d) {
-      isLegendHovered = false
-      d3
-        .select('#legendToolBar')
-        .attr('display', 'none')
-    }
-
-    legendToolBar
-      .on("mouseover", mouseoverlegendToolBarTextRectangle)
-      .on("mouseleave", mouseleavelegendToolBarTextRectangle)
+    
   }
+  function mouseleavelegendToolBar(d) {
+    isLegendHovered = false
+    d3
+      .select('#legendToolBar')
+      .attr('display', 'none')
+  }
+
+  legendToolBar
+    .on("mouseover", mouseoverlegendToolBar)
+    .on("mouseleave", mouseleavelegendToolBar)
 
   d3
     .select('#legendToolBar')
     .attr('display', 'none')
-}
+
 
 {
   // top indegree scoreboard
@@ -752,8 +544,6 @@ isSomeObserved = false;
 
   scoreboardBottomY = scoreboardBbox.y + scoreboardBbox.height;
 
-
-
   // search bar
   // again we use foreignObject to use html elements
   foreignObjectSearchbar = svg.append("foreignObject")
@@ -850,10 +640,10 @@ isSomeObserved = false;
       .style("border", "1px solid black")
       .style("border-radius", "2px")
       .style("background-color", "white")
-      .on("dblclick", function (event) { console.log("here"); clearTimeout(clickTimeout); event.stopPropagation(); })
+      .on("dblclick", function (event) {clearTimeout(clickTimeout); event.stopPropagation(); })
       .on("click", function (event, datum) {
         clickTimeout = setTimeout(() => {
-          if (event.shiftKey) {
+          if (event.altKey) {
             set_dependency(datum);
           } else {
             expandById(datum.id);
@@ -861,7 +651,7 @@ isSomeObserved = false;
             searchInput.node().value = "";
           }
           foreignObjectSearchbar
-        .attr("height", divSearchbar.node().getBoundingClientRect().height)
+            .attr("height", divSearchbar.node().getBoundingClientRect().height)
         }, 150); // Adjust the timeout duration as needed
         event.stopPropagation();
       })
@@ -884,18 +674,18 @@ isSomeObserved = false;
     foreignObjectSearchbar
       .attr("height", divSearchbar.node().getBoundingClientRect().height)
   }
-  
+
   // Create an array of indices sorted by the length of the name property
   // this is used to somewhat optimize the search
   const dataNodesIndices = dataNodes.map((_, index) => index).sort((a, b) => {
     const nameA = dataNodes[a].name;
     const nameB = dataNodes[b].name;
-    
+
     // First sort by length of name
     if (nameA.length !== nameB.length) {
       return nameA.length - nameB.length;
     }
-    
+
     // If lengths are the same, sort lexicographically
     if (nameA < nameB) return -1;
     if (nameA > nameB) return 1;
@@ -914,10 +704,9 @@ isSomeObserved = false;
         if (!node.removed && node.name.toLowerCase().includes(searchText)) {
           filteredData.push(dataNodes[dataNodesIndices[i]]);
           // find only 60 entries
-          if(filteredData.length > 60) break;
+          if (filteredData.length > 60) break;
         }
       }
-      console.log(searchText)
       renderList(filteredData);
     }
   });

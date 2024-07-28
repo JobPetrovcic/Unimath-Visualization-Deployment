@@ -5,13 +5,18 @@ const startNodeColor = '#DF2E38'
 
 // constants for helpToolIcon and helpToolBar
 const helpToolIconBoundaryDistance = 25
-const helpToolIconCircleSize = 15
-const helpToolBarWidth = 520
+const iconCircleSize = 30
+
+const barWidths = 250;
+const barHeights = 400;
+const barPaddings = 15;
+const barRadii = 5;
+
 const helpToolBarPaddingX = 20
 const helpToolBarLineHeight = 20
 const helpToolBarPaddingY = 30
-const helpToolBarHeight = 230
-const legendToolBarWidth = 340
+
+const legendToolBarWidth = 250
 const colorLegendToolBarWidth = 250;
 const spaceGap = 3
 const startingCaptionFontSize = 10

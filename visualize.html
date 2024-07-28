@@ -343,8 +343,10 @@
 
         let u = d3.select(this).data()[0].id; // select the corresponding datum
 
-        if(event.shiftKey){
+        if(event.altKey && showAdvancedOptionsTickbox.property('checked')){
           set_dependency(dataNodes[u])
+          foreignObjectSearchbar
+            .attr("height", divSearchbar.node().getBoundingClientRect().height)
         }
         else{
           if (dataNodes[u].expanded) {
