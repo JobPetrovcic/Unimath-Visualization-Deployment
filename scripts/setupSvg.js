@@ -247,9 +247,13 @@ colorLegendIcon
     .style('overflow', 'auto')
     .style('padding', barPaddings + 'px')
 
+    d3.select('#helpToolBar').on('wheel mousedown touchstart dblclick', function(event) {
+      event.stopPropagation();
+    });
+
   // Add the message text
   helpToolBar.append('div')
-    .text("Click and drag to move around. Click on nodes to expand their neighbors. If a node is darker, it is already expanded or has no neighbors. Click on links to track them, which marks them. Click again to untrack. \n \n Use the scroll wheel to zoom in and out. Holding shift while scrolling moves up and down instead. Moreover, holding the Alt key speeds up this scrolling. Hover over a node to show some of its properties. \n \n To enable advanced options, tick the tickbox. Some additional properties of nodes are now shown when hovering over them. An option to collapse all nodes becomes available on the bottom right. On the top left, a scoreboard displaying nodes with the highest indegree appears. Below it, a search tool to find nodes by name becomes visible. Search for a node by name, click on the search entry to expand the node, and center the viewbox on it. \n \n If you hold shift when you click on the search entry, the node is not centered on but instead becomes 'observed' (the observed node's name is in the black box just above the searchbar). The last property, when hovering over an arbitrary node, now shows the dependency on the observed node. This means that in the construction of an entry in the library, the observed node's entry was used somewhere. \n \n If you want to observe a node without expanding and centering on it, click on it while holding the Alt key, or find it in the searchbar and click on the entry while holding the Alt key.")
+    .text("Click and drag to move around. Click on nodes to expand their neighbors. If a node is darker, it is already expanded or has no neighbors. Click on links to track them, which marks them. Click again to untrack. \n \n Use the scroll wheel to zoom in and out. Holding shift while scrolling moves up and down instead. Moreover, holding the Alt key speeds up this scrolling. Hover over a node to show some of its properties. \n \n To enable advanced options, tick the tickbox. Some additional properties of nodes are now shown when hovering over them. An option to collapse all nodes becomes available on the bottom right. On the top left, a scoreboard displaying nodes with the highest indegree appears. Below it, a search tool to find nodes by name becomes visible. Search for a node by name, click on the search entry to expand the node, and center the viewbox on it. \n \n If you hold the Alt key when you click on the search entry, the node is not centered on but instead becomes 'observed' (the observed node's name is in the black box just above the searchbar). The last property, when hovering over an arbitrary node, now shows the dependency on the observed node. This means that in the construction of an entry in the library, the observed node's entry was used somewhere. \n \n If you want to observe a node without expanding and centering on it, click on it while holding the Alt key (or find it in the searchbar and click on the entry while holding the Alt key.)")
     .style('white-space', 'pre-line');  // Preserve newlines in the message
 
   var isHelpToolBarHovered = false
@@ -284,6 +288,10 @@ colorLegendIcon
     .attr('height', barHeights + 2 * barPaddings + 'px')
     .style('border', '1px solid black')
     .style('border-radius', `${barRadii}` + 'px')
+
+    d3.select('#colorLegendToolBar').on('wheel mousedown touchstart dblclick', function(event) {
+      event.stopPropagation();
+    });
 
   let colorLegendForeignObject = colorLegendToolBar
     .append('xhtml:div')
@@ -366,6 +374,10 @@ colorLegendIcon
     .style('overflow', 'auto')
     .style('padding', barPaddings + 'px')
 
+    d3.select('#legendToolBar').on('wheel mousedown touchstart dblclick', function(event) {
+      event.stopPropagation();
+    });
+
   legendToolBarForeignObject.append('style').text(`
       a:link {
         color: blue;
@@ -440,6 +452,10 @@ colorLegendIcon
     .attr("transform", "translate(" + (-width / 2 + outlineRadius + scoreboardPadding.left) + ", " + (-height / 2 + outlineRadius + scoreboardPadding.top) + ")")
 
   advancedOptionsArray.push([scoreboardGroup, 'inline']);
+
+  scoreboardGroup.on("dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave contextmenu", function(event) {
+    event.stopPropagation();
+});
 
   let scoreboardRectangle = scoreboardGroup.append("rect")
     .attr("x", -scoreboardPadding.left)
@@ -583,7 +599,9 @@ colorLegendIcon
       this.style.height = "auto";
       this.style.height = (this.scrollHeight) + "px";
     });
-
+    lastSearch.on("dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave contextmenu", function(event) {
+      event.stopPropagation();
+  });
 
   searchInput = divSearchbar.append("input")
     .attr("type", "text")
@@ -642,34 +660,27 @@ colorLegendIcon
       .style("background-color", "white")
       .on("dblclick", function (event) {clearTimeout(clickTimeout); event.stopPropagation(); })
       .on("click", function (event, datum) {
-        clickTimeout = setTimeout(() => {
-          if (event.altKey) {
+        event.stopPropagation();
+        if (event.altKey) {
             set_dependency(datum);
           } else {
             expandById(datum.id);
-            renderList([]);
-            searchInput.node().value = "";
-          }
-          foreignObjectSearchbar
-            .attr("height", divSearchbar.node().getBoundingClientRect().height)
-        }, 150); // Adjust the timeout duration as needed
-        event.stopPropagation();
-      })
-      .on("dblclick", function (event) {
-        clearTimeout(clickTimeout);
-        // Your dblclick handler logic here
-        event.stopPropagation();
-      })
+            clickTimeout = setTimeout(() => {
 
+              renderList([]);
+              searchInput.node().value = "";
+              foreignObjectSearchbar
+                .attr("height", divSearchbar.node().getBoundingClientRect().height)
+            }, 500); // Adjust the timeout duration as needed
+            
+          }
+        
+        
+      })
       // disable unnecessary propagation of events to the bottom svg
-      .on("mousedown", function (event) { event.stopPropagation(); })
-      .on("mouseup", function (event) { event.stopPropagation(); })
-      .on("mouseover", function (event) { event.stopPropagation(); })
-      .on("mouseout", function (event) { event.stopPropagation(); })
-      .on("mousemove", function (event) { event.stopPropagation(); })
-      .on("mouseenter", function (event) { event.stopPropagation(); })
-      .on("mouseleave", function (event) { event.stopPropagation(); })
-      .on("contextmenu", function (event) { event.stopPropagation(); });
+      .on("mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave contextmenu", function(event) {
+        event.stopPropagation();
+    });
 
     foreignObjectSearchbar
       .attr("height", divSearchbar.node().getBoundingClientRect().height)
@@ -710,6 +721,9 @@ colorLegendIcon
       renderList(filteredData);
     }
   });
+  searchInput.on("dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave contextmenu", function(event) {
+    event.stopPropagation();
+});
 
   // initial rendering with an empty list
   renderList([]);
