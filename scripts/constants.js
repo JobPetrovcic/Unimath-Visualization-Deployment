@@ -119,6 +119,7 @@ const tooltipLineDistance = 18 // distance between lines in the tooltip in pixel
 const tooltipBoxDistFromNodeX = 10 // the distance from the node and the tooltip box in pixels in the x direction
 const tooltipWidth = 250 // tooltip width in pixels
 const tooltipPadding = 20
+const tooltipOffsetY = 6;
 
 const timeHoveredToTooltip = 1000 // milisecond for which a user must hover over the node to display the node's tooltip
 
