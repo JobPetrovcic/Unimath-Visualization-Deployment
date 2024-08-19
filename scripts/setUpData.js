@@ -34,7 +34,7 @@ for (let i = 0; i < numberOfNodes; ++i) {
 
   dataNodes[i].removed = false
   if (InitiallyRemoveNodes.includes(dataNodes[i].name)) {
-    dataNodes[i].removed = true
+    remove(i)
   }
 
   dataNodes[i].shown = false
@@ -44,12 +44,13 @@ for (let i = 0; i < numberOfNodes; ++i) {
 
 // calculate indegrees
 for (let u = 0; u < numberOfNodes; ++u) {
-  for (let v of neighbours[u]) {
-    dataNodes[v].internalIndegree += 1
+  for (let e of linksReferences[u]) {
+    if(e.target.id == 30175) console.log(u)
+    e.target.internalIndegree += 1
   }
 }
 
-var rootid
+var rootid;
 for (let u = 0; u < numberOfNodes; ++u) if (dataNodes[u].name == rootName) {
   rootid = u;
 }
@@ -65,7 +66,10 @@ for (let i = 0; i < numberOfNodes; ++i)
 // NOTE: some nodes refer to themselves
 let queue = [];
 for (let r of roots) {
-  if (!dataNodes[r].removed) dataNodes[r].parent = -1, queue.push(r);
+  if (!dataNodes[r].removed){ 
+    dataNodes[r].parent = -1;
+    queue.push(r);
+  }
 }
 
 while (queue.length > 0) {
@@ -77,6 +81,7 @@ while (queue.length > 0) {
     let neighbor = v.target.id
     if (!dataNodes[neighbor].removed && dataNodes[neighbor].parent == null) {
       dataNodes[neighbor].parent = u;
+      if(neighbor == 0) console.log("here")
       queue.push(neighbor);
     }
   }

@@ -736,6 +736,7 @@ d3
           if (filteredData.length > 60) break;
         }
       }
+      console.log(filteredData[0])
       renderList(filteredData);
     }
   });

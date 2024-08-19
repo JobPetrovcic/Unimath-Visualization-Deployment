@@ -58,6 +58,14 @@ function roundReadable(val, type) {
   }
 }
 
+function remove(u){
+  if(dataNodes[u].removed == true) return
+  dataNodes[u].removed = true;
+  for(let v of neighbours[u]){
+    remove(v);
+  }
+}
+
 function collapseAndUpdate(u) {
   unshowed = [];
   collapse(u);

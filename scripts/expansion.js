@@ -81,7 +81,6 @@ function expandById(nodeId) {
   if (dataNodes[nodeId].removed) return
 
   if (dataNodes[nodeId].shown) {
-
   }
   else {
     let path = findSomePath(nodeId)
