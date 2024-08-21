@@ -1,6 +1,20 @@
 var numberOfNodes = dataNodes.length
 var shownNodes = []
 
+var rootid;
+for (let u = 0; u < numberOfNodes; ++u) if (dataNodes[u].name == rootName) {
+  rootid = u;
+}
+// make library specific connections see librarySpecificSettings.js
+for (const item of InitiallyConnect) {
+  const [uName, vName] = item;
+  for (let u = 0; u < numberOfNodes; ++u) if (dataNodes[u].name == uName) {
+    for (let v = 0; v < numberOfNodes; ++v) if (dataNodes[v].name == vName) {
+      neighbours[u].push(v)
+    }
+  }
+}
+
 // create dataLinks for d3 to use
 var dataLinks = []
 // same structure as neighbours only with references to links
@@ -45,14 +59,8 @@ for (let i = 0; i < numberOfNodes; ++i) {
 // calculate indegrees
 for (let u = 0; u < numberOfNodes; ++u) {
   for (let e of linksReferences[u]) {
-    if(e.target.id == 30175) console.log(u)
     e.target.internalIndegree += 1
   }
-}
-
-var rootid;
-for (let u = 0; u < numberOfNodes; ++u) if (dataNodes[u].name == rootName) {
-  rootid = u;
 }
 
 // find roots i. e. nodes without indegrees
@@ -81,7 +89,6 @@ while (queue.length > 0) {
     let neighbor = v.target.id
     if (!dataNodes[neighbor].removed && dataNodes[neighbor].parent == null) {
       dataNodes[neighbor].parent = u;
-      if(neighbor == 0) console.log("here")
       queue.push(neighbor);
     }
   }

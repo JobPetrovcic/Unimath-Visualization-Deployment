@@ -225,7 +225,6 @@ colorLegendIcon
   .attr("fill", "currentColor")
 
 function mouseovercolorLegendIcon(d) {
-  console.log(isHelpToolBarHovered)
   if (!isHelpToolBarHovered && !isLegendHovered) {
     d3
       .select('#colorLegendToolBar')
@@ -736,7 +735,6 @@ d3
           if (filteredData.length > 60) break;
         }
       }
-      console.log(filteredData[0])
       renderList(filteredData);
     }
   });
