@@ -30,7 +30,10 @@ var foreignObjectCheckbox = svg.append('foreignObject')
 var foreignObjectCheckboxDiv = foreignObjectCheckbox.append('xhtml:div')
   .style('display', 'flex')
   .style('align-items', 'center')
-  .style('user-select', 'none');  // Prevent text selection
+  .style('user-select', 'none') // Prevent text selection
+  .style('background-color', 'white')
+  .style('border', '2px solid black')
+  .style('border-radius', `${barRadii}` + 'px'); 
 
 var showAdvancedOptionsTickbox = foreignObjectCheckboxDiv
   .append('input')
@@ -455,7 +458,6 @@ legendToolBar
 d3
   .select('#legendToolBar')
   .attr('display', 'none')
-
 
 {
   // top indegree scoreboard
