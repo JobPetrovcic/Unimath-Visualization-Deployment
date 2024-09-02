@@ -32,7 +32,7 @@ var foreignObjectCheckboxDiv = foreignObjectCheckbox.append('xhtml:div')
   .style('align-items', 'center')
   .style('user-select', 'none') // Prevent text selection
   .style('background-color', 'white')
-  .style('border', '2px solid black')
+  //.style('border', '2px solid black')
   .style('border-radius', `${barRadii}` + 'px'); 
 
 var showAdvancedOptionsTickbox = foreignObjectCheckboxDiv
@@ -109,6 +109,13 @@ helpToolIcon
   .attr("opacity", 0)
 
 helpToolIcon
+  .append("circle")
+  .attr("r", iconCircleSize/2)
+  .attr("cx", 12)
+  .attr("cy", 12)
+  .attr("fill", "white")
+
+helpToolIcon
   .append("path")
   .attr("d", "M11 10.9794C11 10.4271 11.4477 9.97937 12 9.97937C12.5523 9.97937 13 10.4271 13 10.9794V16.9794C13 17.5317 12.5523 17.9794 12 17.9794C11.4477 17.9794 11 17.5317 11 16.9794V10.9794Z")
   .attr("fill", "currentColor")
@@ -151,8 +158,6 @@ helpToolIcon
 legendIcon = svg.append("g")
   .attr("transform", "translate(" + (width / 2 - helpToolIconBoundaryDistance) + ", " + (-height / 2 + 4 * iconCircleSize + helpToolIconBoundaryDistance) + ")")
 
-advancedOptionsArray.push([legendIcon, 'inline'])
-
 legendIcon
   .append("circle")
   .attr("r", iconCircleSize)
@@ -162,21 +167,32 @@ legendIcon
   .attr("opacity", 0)
 
 legendIcon
+  .append("circle")
+  .attr("r", iconCircleSize/2)
+  .attr("cx", 12)
+  .attr("cy", 12)
+  .attr("fill", "white")
+
+legendIcon
   .append("path")
   .attr("d", "M6 6C6 5.44772 6.44772 5 7 5H17C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7H7C6.44771 7 6 6.55228 6 6Z")
   .attr("fill", "currentColor")
+
 legendIcon
   .append("path")
   .attr("d", "M6 10C6 9.44771 6.44772 9 7 9H17C17.5523 9 18 9.44771 18 10C18 10.5523 17.5523 11 17 11H7C6.44771 11 6 10.5523 6 10Z")
   .attr("fill", "currentColor")
+
 legendIcon
   .append("path")
   .attr("d", "M7 13C6.44772 13 6 13.4477 6 14C6 14.5523 6.44771 15 7 15H17C17.5523 15 18 14.5523 18 14C18 13.4477 17.5523 13 17 13H7Z")
   .attr("fill", "currentColor")
+
 legendIcon
   .append("path")
   .attr("d", "M6 18C6 17.4477 6.44772 17 7 17H11C11.5523 17 12 17.4477 12 18C12 18.5523 11.5523 19 11 19H7C6.44772 19 6 18.5523 6 18Z")
   .attr("fill", "currentColor")
+
 legendIcon
   .append("path")
   .attr("fill-rule", "evenodd")
@@ -184,6 +200,7 @@ legendIcon
   .attr("d", "M2 4C2 2.34315 3.34315 1 5 1H19C20.6569 1 22 2.34315 22 4V20C22 21.6569 20.6569 23 19 23H5C3.34315 23 2 21.6569 2 20V4ZM5 3H19C19.5523 3 20 3.44771 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44771 3 5 3Z")
   .attr("fill", "currentColor")
 
+advancedOptionsArray.push([legendIcon, 'inline'])
 function mouseoverlegendToolIcon(d) {
   if (!isHelpToolBarHovered && !isColorLegendHovered) {
     d3
@@ -214,6 +231,13 @@ colorLegendIcon
   .attr("cy", 12)
   .attr("fill", "white")
   .attr("opacity", 0)
+
+colorLegendIcon
+  .append("circle")
+  .attr("r", iconCircleSize/2)
+  .attr("cx", 12)
+  .attr("cy", 12)
+  .attr("fill", "white")
 
 colorLegendIcon
   .append("path")
@@ -273,7 +297,7 @@ d3.select('#helpToolBar').on('wheel mousedown touchstart dblclick', function (ev
 
 // Add the message text
 helpToolBar.append('div')
-  .text("Click and drag to move around. Click on nodes to expand their neighbors. If a node is darker, it is already expanded or has no neighbors. Click on links to track them, which marks them. Click again to untrack. \n \n Use the scroll wheel to zoom in and out. Holding shift while scrolling moves up and down instead. Moreover, holding the Alt key speeds up this scrolling. Hover over a node to show some of its properties. \n \n To enable advanced options, tick the tickbox. Some additional properties of nodes are now shown when hovering over them. An option to collapse all nodes becomes available on the bottom right. On the top left, a scoreboard displaying nodes with the highest indegree appears. Below it, a search tool to find nodes by name becomes visible. Search for a node by name, click on the search entry to expand the node, and center the viewbox on it. \n \n If you hold the Alt key when you click on the search entry, the node is not centered on but instead becomes 'observed' (the observed node's name is in the black box just above the searchbar). The last property, when hovering over an arbitrary node, now shows the dependency on the observed node. This means that in the construction of an entry in the library, the observed node's entry was used somewhere. \n \n If you want to observe a node without expanding and centering on it, click on it while holding the Alt key (or find it in the searchbar and click on the entry while holding the Alt key.)")
+  .text("Click and drag to move around. Click on nodes to expand their neighbors. If a node is darker, it is already expanded or has no neighbors. Click on links to track them, which marks them. Click again to untrack. \n \n Use the scroll wheel to zoom in and out. Holding shift while scrolling moves up and down instead. Moreover, holding the Alt key speeds up this scrolling. Hover over a node to show some of its properties. \n \n To enable advanced options, tick the tickbox. Some additional properties of nodes are now shown when hovering over them. An option to collapse all nodes becomes available on the bottom right. On the top left, a scrollable scoreboard displaying nodes with the highest indegree appears. Below it, a search tool to find nodes by name becomes visible. Search for a node by name, click on the search entry to expand the node, and center the viewbox on it. \n \n If you hold the Alt key when you click on the search entry, the node is not centered on but instead becomes 'observed' (the observed node's name is in the black box just above the searchbar). The last property, when hovering over an arbitrary node, now shows the dependency on the observed node. This means that in the construction of an entry in the library, the observed node's entry was used somewhere. \n \n If you want to observe a node without expanding and centering on it, click on it while holding the Alt key (or find it in the searchbar and click on the entry while holding the Alt key.)")
   .style('white-space', 'pre-line');  // Preserve newlines in the message
 
 var isHelpToolBarHovered = false
@@ -461,19 +485,44 @@ d3
 
 {
   // top indegree scoreboard
-  let indices = dataNodes.map((_, index) => index);
+  let unfilteredIndices = dataNodes.map((_, index) => index);
+
+  // Filter dataNodes based on the condition !datum.removed
+  let filteredData = dataNodes.filter(datum => !datum.removed);
+
+  // Map indices to the filtered data
+  let indices = unfilteredIndices.filter(index => !dataNodes[index].removed);
+
+// TODO check that this is ok
   const sortedDataNodesIndegree = indices.sort((a, b) => dataNodes[b].in_degree - dataNodes[a].in_degree);
 
-  const topNodes = sortedDataNodesIndegree.slice(0, Math.min(sortedDataNodesIndegree.length, scoreboardNumberOfEntries));
+  let scoreBoardOffsetPosition = 0;
+
+  let shownscoreboardEntries = Math.min(sortedDataNodesIndegree.length, scoreboardNumberOfEntries)
+  topNodes = sortedDataNodesIndegree.slice(0, shownscoreboardEntries);
 
   scoreboardGroup = svg.append("g")
     .attr("class", "scoreboard")
     .attr("transform", "translate(" + (-width / 2 + outlineRadius + scoreboardPadding.left) + ", " + (-height / 2 + outlineRadius + scoreboardPadding.top) + ")")
 
   advancedOptionsArray.push([scoreboardGroup, 'inline']);
-
-  scoreboardGroup.on("dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave contextmenu", function (event) {
+  scoreboardGroup.on("wheel", function(event) {
+    event.preventDefault();  // Prevent the default scroll behavior
     event.stopPropagation();
+    // Determine the scroll direction
+    if (event.deltaY > 0) {
+      scoreBoardOffsetPosition += 1;
+      let allNodesCounter = sortedDataNodesIndegree.length;
+      if(scoreBoardOffsetPosition > allNodesCounter - shownscoreboardEntries) scoreBoardOffsetPosition = allNodesCounter - shownscoreboardEntries
+    } else {
+      scoreBoardOffsetPosition -= 1;
+      if (scoreBoardOffsetPosition < 0) scoreBoardOffsetPosition = 0;
+    }
+
+    updateScoreboard();
+
+    scoreboardText = scoreboardGroup.selectAll("text.scoreboardentries")
+      .data(topNodes);
   });
 
   let scoreboardRectangle = scoreboardGroup.append("rect")
@@ -497,7 +546,7 @@ d3
     .style("font-size", scoreboardLineHeight * scoreboardTextHeightRatio)
     .style("fill", "black");
 
-  scoreboardText = scoreboardGroup.selectAll("text.scoreboardentries")
+  var scoreboardText = scoreboardGroup.selectAll("text.scoreboardentries")
     .data(topNodes)
     .enter()
     .append("text")
@@ -505,11 +554,103 @@ d3
     .attr("x", 0)
     .attr("y", (d, i) => (i + 2) * scoreboardLineHeight - (1 - scoreboardTextHeightRatio) / 2 * scoreboardLineHeight - dividerThickness) // TODO fix scaling of scoreboardTextHeightRatio
 
+    function updateScoreboard() {
+      topNodes = sortedDataNodesIndegree.slice(
+         scoreBoardOffsetPosition,
+         scoreBoardOffsetPosition + shownscoreboardEntries
+      );
+    
+      // Update the scoreboard text elements
+      let scoreboardText = scoreboardGroup.selectAll("text.scoreboardentries")
+        .data(topNodes, d => d);  // Use d as the key if the data is unique
+    
+      // Handle exiting elements
+      scoreboardText.exit().remove();
+    
+      // Handle entering elements
+      let scoreboardTextEnter = scoreboardText.enter()
+        .append("text")
+        .attr("class", "scoreboardentries")
+        .attr("x", 0)
+        .attr("y", (d, i) => (i + 2) * scoreboardLineHeight - (1 - scoreboardTextHeightRatio) / 2 * scoreboardLineHeight - dividerThickness);
+    
+      // Append tspan for rank, name, and value (indegree)
+      scoreboardTextEnter.append("tspan")
+        .style("font-weight", "bold")
+        .text((d, i) => `${scoreBoardOffsetPosition + i + 1}. `)
+        .style("font-size", `${scoreboardLineHeight * scoreboardTextHeightRatio}px`)
+        .style("fill", "#555555");
+    
+      scoreboardTextEnter.append("tspan")
+        .style("font-weight", "bold")
+        .text(d => `${dataNodes[d].name}: `)
+        .style("font-size", scoreboardLineHeight * scoreboardTextHeightRatio)
+        .style("fill", "#555555");
+    
+      scoreboardTextEnter.append("tspan")
+        .style("font-weight", "normal")
+        .style("font-size", scoreboardLineHeight * scoreboardTextHeightRatio)
+        .text(d => `${dataNodes[d].in_degree}`) 
+        .style("fill", "#888888");
+    
+      // Merge entering and updating elements
+      scoreboardText = scoreboardTextEnter.merge(scoreboardText);
+    
+      // Update the position and content of all elements (both existing and new)
+      scoreboardText.attr("y", (d, i) => (i + 2) * scoreboardLineHeight - (1 - scoreboardTextHeightRatio) / 2 * scoreboardLineHeight - dividerThickness);
+    
+      // Recalculate the scoreboard width
+      let calculatedScoreboardWidth = 0;
+    
+      header.each(function () {
+        let textNode = d3.select(this).node();
+        const computedLength = textNode.getComputedTextLength();
+    
+        if (computedLength > calculatedScoreboardWidth) {
+          calculatedScoreboardWidth = computedLength;
+        }
+      });
+    
+      scoreboardText.each(function () {
+        let textNode = d3.select(this).node();
+        const computedLength = textNode.getComputedTextLength();
+    
+        if (computedLength > calculatedScoreboardWidth) {
+          calculatedScoreboardWidth = computedLength;
+        }
+      });
+    
+      // Update the scoreboard rectangle width
+      scoreboardRectangle
+        .attr("width", calculatedScoreboardWidth + scoreboardPadding.left + scoreboardPadding.right);
+    
+      // Update the header divider
+      scoreboardGroup.select("line.headerDivider")
+        .attr("x2", calculatedScoreboardWidth + scoreboardPadding.right);
+    
+      // Update the dividers
+      let dividers = scoreboardGroup.selectAll("line.divider")
+        .data(topNodes.slice(1));
+    
+      dividers.exit().remove();
+    
+      dividers.enter()
+        .append("line")
+        .attr("class", "divider")
+        .attr("x1", -scoreboardPadding.left)
+        .attr("stroke", "black")
+        .attr("stroke-width", dividerThickness)
+        .merge(dividers) // Merge new and existing elements
+        .attr("x2", calculatedScoreboardWidth + scoreboardPadding.right)  // Adjust divider length
+        .attr("y1", (d, i) => (i + 2) * scoreboardLineHeight)
+        .attr("y2", (d, i) => (i + 2) * scoreboardLineHeight);
+    }
+    
   // append tspan for rank
   scoreboardNames = scoreboardText
     .append("tspan")
     .style("font-weight", "bold")
-    .text((d, i) => `${i + 1}. `)
+    .text((d, i) => `${scoreBoardOffsetPosition + i + 1}. `)
     .style("font-size", `${scoreboardLineHeight * scoreboardTextHeightRatio}px`)
     .style("fill", "#555555");
 
