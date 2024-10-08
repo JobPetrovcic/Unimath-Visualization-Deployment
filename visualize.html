@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <meta charset="UTF-8" />
 <style>
+  .optionsMenu {
+    font: 12px sans-serif;
+  }
+
   .nodes text {
-    font-size: 12px; 
-    font-family: var(--code-font, "Courier New"), monospace;
+    font: 12px sans-serif;
   }
 
   #helpToolBar,
   #legendToolBar,
   #colorLegendToolBar {
-    font-size: 12px;
-    font-family: var(--surrounding-text-font, "Arial"), sans-serif;
+    font: 12px sans-serif;
   }
 
   body {
@@ -18,7 +20,7 @@
   }
 
   .scoreboard {
-    font-family: var(--code-font, "Courier New"), monospace;
+    font-family: sans-serif;
     border: 4px solid black;
     border-radius: 15px;
     padding: 20px;
@@ -47,10 +49,6 @@
   <script type="text/javascript" src="scripts/expansion.js"></script>
   <script type="text/javascript" src="scripts/arrangeTree.js"></script>
   <script type="text/javascript">
-    
-    document.documentElement.style.setProperty('--code-font', codeFont);
-    document.documentElement.style.setProperty('--surrounding-text-font', surroundingTextFont);
-
     startingPoint = true;
 
     const allLinks = mainGraphics.append("g").attr("class", "allLinks");
