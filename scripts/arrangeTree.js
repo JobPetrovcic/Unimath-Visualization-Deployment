@@ -48,7 +48,7 @@ function arrangeTree() {
 
     currentLevelWidths = {};
     for (let v of treeData) { // NOTE: some nodes appear twice; TODO understand this
-      let currentNameLength = getTextWidth(v.data.name)
+      let currentNameLength = getTextWidth(v.data.name, "12px", codeFont)
       let depth = v.depth;
 
       // set current depth level to have width at least current name tag

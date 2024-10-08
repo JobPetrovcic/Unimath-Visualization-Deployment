@@ -1,10 +1,10 @@
-const width = 1000
-const height = 600
-
 const startNodeColor = '#DF2E38'
 
+const codeFont = "'DejaVu Sans Mono', monospace";
+const surroundingTextFont = "'Open Sans', sans-serif";
+
 // constants for helpToolIcon and helpToolBar
-const helpToolIconBoundaryDistance = 25
+const helpToolIconBoundaryDistance = 55
 const iconCircleSize = 30
 
 const barWidths = 250;

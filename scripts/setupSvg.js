@@ -7,6 +7,11 @@ var mainDiv = d3.select('body')
   .style('flex-direction', 'column')
   .style('align-items', 'flex-start');
 
+var width = window.innerWidth;  // Adjust the width as 80% of the window width
+var height = window.innerHeight; // Adjust the height as 80% of the window height
+  
+  console.log(width, height);
+
 // append checkbox and label to mainDiv
 advancedOptionsArray = []
 
@@ -44,7 +49,8 @@ showAdvancedOptionsTickbox.on("change", handleChangeShowAdvancedOptions);
 
 var checkboxText = foreignObjectCheckboxDiv.append('label')
   .attr('for', 'advancedOptionsInput')
-  .text("Show advanced options");
+  .text("Show advanced options")
+  .style('font-family', surroundingTextFont);
 
 {
   let bbox = foreignObjectCheckboxDiv.node().getBoundingClientRect();
@@ -544,6 +550,7 @@ d3
     .style("font-weight", 900)
     .text('Nodes with largest indegree ')
     .style("font-size", scoreboardLineHeight * scoreboardTextHeightRatio)
+    .style("font-family", codeFont)
     .style("fill", "black");
 
   var scoreboardText = scoreboardGroup.selectAll("text.scoreboardentries")
@@ -731,7 +738,7 @@ d3
 
   divSearchbar = foreignObjectSearchbar
     .append("xhtml:div")
-    .style("font-family", "sans-serif")
+    .style("font-family", codeFont)
     .style("font-size", 15);
 
   advancedOptionsArray.push([foreignObjectSearchbar, 'inline']);
@@ -911,7 +918,7 @@ d3
     .style('border', '2px solid #000')
     .style('border-radius', '3px')
     .style('font-size', '10px')
-    .style('font-family', 'sans-serif')
+    .style('font-family', surroundingTextFont)
     .style('cursor', 'pointer')
 
   collapseAllButton.on('click', function () {
@@ -940,13 +947,3 @@ function handleChangeShowAdvancedOptions() {
   }
 }
 handleChangeShowAdvancedOptions();
-
-//var optionsMenu = d3.select("body").append("div").attr('class', 'optionsMenu')
-//var inputShowOnlyNecessary = optionsMenu
-//  .append('label')
-//      .attr('for',function(d,i){ return 'a'+i; })
-//      .text('Show only necessary links (recommended when viewing a large number of nodes):')
-//  .append("input")
-//      .attr("type", "checkbox")
-//      .attr("id", function(d,i) { return 'a'+i; })
-//      .attr("onClick", "change(this)");
